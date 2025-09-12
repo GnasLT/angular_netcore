@@ -1,0 +1,16 @@
+# Ignore node_modules ở cả frontend & backend
+**/node_modules/
+**/dist/
+**/.angular/
+**/out-tsc/
+
+# Logs
+*.log
+
+# Env
+*.env
+*.local
+
+# IDE
+.vscode/
+.idea/
