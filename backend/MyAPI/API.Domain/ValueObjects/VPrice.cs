@@ -29,8 +29,8 @@ namespace API.Domain.Entities
         }
 
         public override string ToString() {
-            var culture = Currency == "USD" ? new CultureInfo("en-US") : new CultureInfo("vi-VN");
-           string formatted = Value.ToString("N0");
+            // Format the number with thousand separators
+            string formatted = Value.ToString("N0");
 
             return  formatted  + " " + Currency;
         }
