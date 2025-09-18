@@ -11,11 +11,30 @@ namespace API.Domain.Entities
 
         public VRole Role { get; private set; }
 
+
+        public Users(int id, string name, VEmail email, VPassword password, VRole role)
+        {
+            Id = id;
+            Name = name ?? throw new InvalidOperationException("Name cannot be null");
+            Email = email ?? throw new InvalidOperationException("Email cannot be null");
+            Password = password ?? throw new InvalidOperationException("Password cannot be null");
+            Role = role;
+        }
+
+        public Users(Users user)
+        {
+            this.Id = user.Id;
+            this.Name = user.Name;
+            this.Email = user.Email;
+            this.Password = user.Password;
+            this.Role = user.Role;
+        }
+
+
         public void SetRole(VRole role)
         {
             Role = role;
         }
-
         public void ChangePassword(VPassword newpassword, VPassword oldPassword)
         {
             if (!Password.Equals(oldPassword))

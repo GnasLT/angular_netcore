@@ -11,6 +11,14 @@ namespace API.Domain.Entities
 
         public VStock Stock { get; private set; }
 
+        public Products(int id, string name, VPrice price, VStock stock)
+        {
+            Id = id;
+            Name = name ?? throw new InvalidOperationException("Name cannot be null");
+            Price = price ?? throw new InvalidOperationException("Price cannot be null");
+            Stock = stock ?? throw new InvalidOperationException("Stock cannot be null");
+        }
+
         public void UpdatePrice(VPrice newPrice)
         {
             Price = newPrice;

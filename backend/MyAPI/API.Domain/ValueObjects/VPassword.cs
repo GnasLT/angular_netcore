@@ -10,7 +10,7 @@ namespace API.Domain.Entities
         {
 
             // Example validation: at least 6 characters, contains a number and an uppercase letter
-            if (string.IsNullOrWhiteSpace(value) || value.Length < 6 || !value.Any(char.IsDigit) || !value.Any(char.IsUpper))
+            if (string.IsNullOrWhiteSpace(value) || value.Length < 6)
             {
                 throw new ArgumentException("Invalid email format", nameof(value));
             }

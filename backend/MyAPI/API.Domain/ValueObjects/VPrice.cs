@@ -20,10 +20,7 @@ namespace API.Domain.Entities
                 throw new ArgumentException("Price cannot be zero", nameof(value));
             }
             
-            if (currency != "USD" || currency != "VND")
-            {
-                throw new ArgumentException("Unsupported currency", nameof(currency));
-            }
+            
             Value = value;
             Currency = currency;
         }
