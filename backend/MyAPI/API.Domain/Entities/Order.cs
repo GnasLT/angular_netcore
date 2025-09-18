@@ -5,31 +5,59 @@ namespace API.Domain.Entities
     public class Orders
     {
         public Guid Id { get; private set; }
-        public VOrderStatus Status { get; private set; }
         public DateTime OrderDate { get; private set; }
-        public VPrice TotalAmount { get; private set; }
         public Guid UserId { get; private set; }
-        public Users User { get; private set; }
-        public ICollection<OrderItems> OrderItems { get; private set; }
 
-        public Orders(VOrderStatus status, DateTime orderDate, VPrice totalAmount, Guid userId)
+        private readonly List<OrderItems> orderitems = new();
+        public IReadOnlyCollection<OrderItems> Items => orderitems.AsReadOnly();
+
+        public Orders(DateTime orderDate, Guid userId, List<OrderItems> orderitems)
         {
             Id = Guid.NewGuid();
-            Status = status;
             OrderDate = orderDate;
-            TotalAmount = totalAmount;
             UserId = userId;
-            OrderItems = new List<OrderItems>();
+            this.orderitems = orderitems;
         }
 
-        public void UpdateStatus(VOrderStatus newStatus)
+        public void AddItem(Guid productid, int quanlity)
         {
-            Status = newStatus;
+            if (quanlity <= 0)
+                throw new ArgumentException("Quantity must be greater than 0.");
+            orderitems.Add(new OrderItems(productid, quanlity));
         }
 
-        public void AddOrderItem(OrderItems orderItem)
+        public void AddItem(OrderItems items)
         {
-            OrderItems.Add(orderItem);
+            if (items.Quanlity <= 0)
+                throw new ArgumentException("Quantity must be greater than 0.");
+            orderitems.Add(items);
         }
+
+        public void RemoveItem(Guid productid)
+        {
+            var item = orderitems.FirstOrDefault(u => u.ProductId == productid);
+            if (item != null)
+            {
+                orderitems.Remove(item);
+            }
+        }
+
+    }
+
+
+
+    public class OrderItems
+    {
+        public Guid ProductId;
+        public int Quanlity;
+
+        internal OrderItems(Guid ProductId, int Quanlity)
+        {
+            this.Quanlity = Quanlity;
+            this.ProductId = ProductId;
+        }
+
     }
 }
+
+

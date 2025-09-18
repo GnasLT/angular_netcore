@@ -4,7 +4,7 @@ namespace API.Domain.Entities
 {
     public class Users
     {
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public VEmail Email { get; private set; }
         public VPassword Password { get; private set; }
@@ -12,7 +12,7 @@ namespace API.Domain.Entities
         public VRole Role { get; private set; }
 
 
-        public Users(int id, string name, VEmail email, VPassword password, VRole role)
+        public Users(Guid id, string name, VEmail email, VPassword password, VRole role)
         {
             Id = id;
             Name = name ?? throw new InvalidOperationException("Name cannot be null");
