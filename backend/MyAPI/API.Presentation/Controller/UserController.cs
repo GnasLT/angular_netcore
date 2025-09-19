@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 using API.Application.Abstractions;
 using API.Application.DTO.Request;
 using API.Domain.Entities;
+
+using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 
 namespace API.Presentation.Controller
 {
@@ -18,10 +19,14 @@ namespace API.Presentation.Controller
         private readonly IAuthenService _authenService;
         private readonly IProductRepository _productRepository;
 
-        public UserController(IAuthenService authenService, IProductRepository productRepository)
+        private readonly IOrderService _orderService;
+
+        public UserController(IAuthenService authenService, IProductRepository productRepository, IOrderService orderService)
         {
+
             this._authenService = authenService;
             this._productRepository = productRepository;
+            this._orderService = orderService;
         }
 
         [HttpPost("/login")]
@@ -54,9 +59,16 @@ namespace API.Presentation.Controller
         [HttpGet("/getall")]
         public IActionResult GetAll()
         {
-            return Ok( new { Enumerable = _productRepository.GetAllProducts(), Message = "Get all products successfully" });
+            return Ok(new { Enumerable = _productRepository.GetAllProducts(), Message = "Get all products successfully" });
         }
 
+        [Authorize(Roles = "Customer")]
+        [HttpPost("/buying")]
+
+        public IActionResult Buying([FromBody] OrderRequestDTO orders)
+        {
+            return Ok(new { Message = "Buying successfully", Order = orders });
+        }
 
     }
 }

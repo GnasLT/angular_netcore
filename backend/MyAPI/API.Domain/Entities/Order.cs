@@ -4,22 +4,22 @@ namespace API.Domain.Entities
 {
     public class Orders
     {
-        public Guid Id { get; private set; }
+        public int Id { get; private set; }
         public DateTime OrderDate { get; private set; }
-        public Guid UserId { get; private set; }
+        public int UserId { get; private set; }
 
         private readonly List<OrderItems> orderitems = new();
         public IReadOnlyCollection<OrderItems> Items => orderitems.AsReadOnly();
 
-        public Orders(DateTime orderDate, Guid userId, List<OrderItems> orderitems)
+        public Orders(int id,DateTime orderDate, int userId, List<OrderItems> orderitems)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             OrderDate = orderDate;
             UserId = userId;
             this.orderitems = orderitems;
         }
 
-        public void AddItem(Guid productid, int quanlity)
+        public void AddItem(int productid, int quanlity)
         {
             if (quanlity <= 0)
                 throw new ArgumentException("Quantity must be greater than 0.");
@@ -33,7 +33,7 @@ namespace API.Domain.Entities
             orderitems.Add(items);
         }
 
-        public void RemoveItem(Guid productid)
+        public void RemoveItem(int productid)
         {
             var item = orderitems.FirstOrDefault(u => u.ProductId == productid);
             if (item != null)
@@ -48,10 +48,10 @@ namespace API.Domain.Entities
 
     public class OrderItems
     {
-        public Guid ProductId;
+        public int ProductId;
         public int Quanlity;
 
-        internal OrderItems(Guid ProductId, int Quanlity)
+        internal OrderItems(int ProductId, int Quanlity)
         {
             this.Quanlity = Quanlity;
             this.ProductId = ProductId;

@@ -15,7 +15,7 @@ namespace API.Infrastructure.Persistence
                 new Users(1,"Sang" , new VEmail("sang@gmail.com"), new VPassword("123456"), new VRole("Admin")),
                 new Users(2,"gnas" , new VEmail("gnas@gmail.com"), new VPassword("123456"), new VRole("Seller")),
                 new Users(3,"Truc" , new VEmail("truc@gmail.com"), new VPassword("123456"), new VRole("Customer")),
-                new Users(4,"test" , new VEmail("user@example.com"), new VPassword("string"), new VRole("User"))
+                new Users(4,"test" , new VEmail("user@example.com"), new VPassword("string"), new VRole("Customer"))
             };
         }
         public void AddUser(string name, VEmail email, VPassword password, VRole role)

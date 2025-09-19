@@ -13,7 +13,7 @@ namespace API.Application.Abstractions
 
         public Products GetProductByName(string name);
 
-        public void GetProductByID(int id);
+        public Products GetProductByID(int id);
 
         public void UpdateProduct(Products product);
 

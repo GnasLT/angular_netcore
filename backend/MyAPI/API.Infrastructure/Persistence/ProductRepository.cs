@@ -44,9 +44,16 @@ namespace API.Infrastructure.Persistence
             throw new NotImplementedException();
         }
 
-        public void GetProductByID(int id)
+        public Products GetProductByID(int id)
         {
-            throw new NotImplementedException();
+            foreach (var product in this.products)
+            {
+                if (product.Id == id)
+                {
+                    return product;
+                }
+            }
+            return null;
         }
 
         public bool ProductExists(string name)

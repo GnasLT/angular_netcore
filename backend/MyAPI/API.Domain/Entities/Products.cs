@@ -4,14 +4,14 @@ namespace API.Domain.Entities
 {
     public class Products
     {
-        public Guid Id { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
 
         public VPrice Price { get; private set; }
 
         public VStock Stock { get; private set; }
 
-        public Products(Guid id, string name, VPrice price, VStock stock)
+        public Products(int id, string name, VPrice price, VStock stock)
         {
             Id = id;
             Name = name ?? throw new InvalidOperationException("Name cannot be null");
