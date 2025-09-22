@@ -26,7 +26,7 @@ namespace API.Infrastructure.Persistence
         }
         public Orders CreateOrder(Orders order)
         {
-            /*adding querry to save the order*/
+
             _orders = _orders.Append(order);
             return order;
         }

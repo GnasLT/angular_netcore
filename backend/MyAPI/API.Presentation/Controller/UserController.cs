@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using API.Application.DTO.Response;
 
 namespace API.Presentation.Controller
 {
@@ -30,16 +31,17 @@ namespace API.Presentation.Controller
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> Login([FromBody] UserRequestDTO userRequest)
+        public async Task<Result<UserResponseDTO>> Login([FromBody] UserRequestDTO userRequest)
         {
-            var result = await _authenService.Login(userRequest);
+            Result<UserResponseDTO> result = await _authenService.Login(userRequest);
+
             if (!result.Success)
             {
-                return BadRequest(result.Message);
+                return Result<UserResponseDTO>.FailureResult(result.Message);
             }
 
             var claimsIdentity = new ClaimsIdentity(
-                result.Claim,
+                result.Data.Claim,
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
 
@@ -52,7 +54,7 @@ namespace API.Presentation.Controller
                     ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20)
                 });
 
-            return Ok(new { Message = result.Message, });
+            return Result<UserResponseDTO>.SuccessResult(result.Data, result.Message);
         }
 
         [Authorize(Roles = "Seller")]
@@ -62,12 +64,20 @@ namespace API.Presentation.Controller
             return Ok(new { Enumerable = _productRepository.GetAllProducts(), Message = "Get all products successfully" });
         }
 
+        [Authorize(Roles = "Seller")]
+        [HttpPost("/addproduct")]
+        public async Task<Result<ProductReponseDTO>> AddProduct([FromBody] ProductRequestDTO productRequest)
+        {
+            _productRepository.AddProduct(productRequest);
+            return null;
+        }
+
         [Authorize(Roles = "Customer")]
         [HttpPost("/buying")]
-
-        public IActionResult Buying([FromBody] OrderRequestDTO orders)
+        public async Task<Result<OrderResponseDTO>> Buying([FromBody] OrderRequestDTO orders)
         {
-            return Ok(new { Message = "Buying successfully", Order = orders });
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return await _orderService.CreateOrder(orders, userId);
         }
 
     }

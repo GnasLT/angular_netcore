@@ -17,14 +17,14 @@ namespace API.Domain.Entities
         
         public void Decrease(int amount)
         {
-            if (amount < 0)
-            {
-                throw new ArgumentException("Decrease amount cannot be negative", nameof(amount));
-            }
-            if (amount > Quanlity)
-            {
-                throw new InvalidOperationException("Insufficient stock to decrease");
-            }
+            // if (amount < 0)
+            // {
+            //     throw new ArgumentException("Decrease amount cannot be negative", nameof(amount));
+            // }
+            // if (amount > Quanlity)
+            // {
+            //     throw new InvalidOperationException("Insufficient stock to decrease");
+            // }
             Quanlity -= amount;
         }
 

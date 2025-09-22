@@ -8,7 +8,7 @@ namespace API.Application.Abstractions
 {
     public interface IAuthenService
     {
-        public Task<UserResponseDTO> Login(UserRequestDTO userRequest);
+        public Task<Result<UserResponseDTO>> Login(UserRequestDTO userRequest);
 
         
     }

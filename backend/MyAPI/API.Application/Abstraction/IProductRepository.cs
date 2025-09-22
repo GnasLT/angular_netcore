@@ -7,7 +7,7 @@ namespace API.Application.Abstractions
     public interface IProductRepository
     {
         public IEnumerable<Products> GetAllProducts();
-        public void AddProduct(string name, VPrice price, VStock stock);
+        public void AddProduct(int id, string name, VPrice price, VStock stock);
 
         public bool ProductExists(string name);
 

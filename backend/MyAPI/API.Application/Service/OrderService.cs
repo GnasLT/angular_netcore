@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using API.Application.Abstractions;
 using API.Application.DTO.Request;
 using API.Application.DTO.Response;
@@ -12,30 +13,36 @@ namespace API.Application.Service
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
 
-        public OrderService(IOrderRepository orderRepository)
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
         }
 
-        public async Task<IActionResult> CreateOrder(OrderRequestDTO orderdto)
+        public async Task<Result<OrderResponseDTO>> CreateOrder(OrderRequestDTO orderdto, string userId)
         {
             List<OrderItems> items = new List<OrderItems>();
-            items = orderdto.Items.Select(i => new OrderItems(i.ProductId, i.Quantity)).ToList();
             
-            Orders order = new Orders(3,orderdto.OrderDate, orderdto.UserId, items);
+            items = orderdto.Items.Select(i => new OrderItems(i.ProductId, i.Quantity)).ToList();
+            Console.WriteLine(userId);
+            Orders order = new Orders(3,orderdto.OrderDate, Convert.ToInt32(userId) , items);
             foreach (var item in orderdto.Items)
             {
                 Products product = _productRepository.GetProductByID(item.ProductId);
                 if (product != null)
                 {
-                   product.DecreaseStock(item.Quantity);
+                    product.DecreaseStock(item.Quantity);
+                    Console.WriteLine(product.Stock.Quanlity);
                 }
+                else
+                {
+                    return Result<OrderResponseDTO>.FailureResult("Product not found");
+                }
+
             }
-            _orderRepository.CreateOrder(order);
 
             OrderResponseDTO order_respon = new OrderResponseDTO
             {
-                Id = order.Id,
                 OrderDate = order.OrderDate,
                 Items = order.Items.Select(i => new OrderItemResponseDTO
                 {
@@ -43,8 +50,7 @@ namespace API.Application.Service
                     Quantity = i.Quanlity
                 }).ToList()
             };
-
-            return new OkObjectResult(new { Message = "Order created successfully", order_respon });
+            return Result<OrderResponseDTO>.SuccessResult(order_respon);
         }
 
     }

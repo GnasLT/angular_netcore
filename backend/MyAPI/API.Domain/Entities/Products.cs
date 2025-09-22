@@ -18,7 +18,7 @@ namespace API.Domain.Entities
             Price = price ?? throw new InvalidOperationException("Price cannot be null");
             Stock = stock ?? throw new InvalidOperationException("Stock cannot be null");
         }
-
+        
         public void UpdatePrice(VPrice newPrice)
         {
             Price = newPrice;

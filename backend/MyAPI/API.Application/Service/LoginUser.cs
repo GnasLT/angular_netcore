@@ -19,40 +19,32 @@ namespace API.Application.Service
             this._userRepository = userRepository;
         }
 
-        public async Task<UserResponseDTO> Login(UserRequestDTO userRequest)
+        public async Task<Result<UserResponseDTO>> Login(UserRequestDTO userRequest)
         {
             var user = _userRepository.GetUserByEmail(new VEmail(userRequest.Email));
             if (user == null)
             {
-                return new UserResponseDTO()
-                {
-                    Message = "User not found",
-                    Success = false
-                };
+                return Result<UserResponseDTO>.FailureResult("User not found");
             }
 
             if(user.Password.Value != userRequest.Password)
             {
-                return new UserResponseDTO()
-                {
-                    Message = "Invalid password",
-                    Success = false
-                };
+                return Result<UserResponseDTO>.FailureResult("Invalid password");
             }
             
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email.Value),
+                
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.Name)
 
             };
-            return new UserResponseDTO()
+            UserResponseDTO userResponse = new UserResponseDTO
             {
-                Message = "User logged in successfully",
-                Success = true,
                 Claim = claims
             };
+            return Result<UserResponseDTO>.SuccessResult(userResponse, "User logged in successfully");
+            
         }
 
 

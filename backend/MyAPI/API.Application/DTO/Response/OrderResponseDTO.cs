@@ -2,10 +2,8 @@
 
 namespace API.Application.DTO.Response
 {
-    public class OrderResponseDTO
+    public class OrderResponseDTO 
     {
-        public int Id { get; set; }
-
         public DateTime OrderDate { get; set; }
 
         public List<OrderItemResponseDTO> Items { get; set; }
