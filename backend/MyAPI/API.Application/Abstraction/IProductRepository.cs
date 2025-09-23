@@ -21,7 +21,7 @@ namespace API.Application.Abstractions
 
         public void DecreaseStock(int id, int newStock);
 
-        public void DeleteProduct(string name);
+        public void DeleteProduct(int id);
 
 
     }

@@ -45,12 +45,13 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IAuthenService, LoginUser>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IAuthenService, LoginUser>();
 
 builder.Services.AddAuthorization(); 
 builder.Services.AddControllers();
@@ -58,7 +59,7 @@ builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "SESSIONID"; // Replace with your desired cookie name
+    options.Cookie.Name = "MyCookieAuth"; 
     options.IdleTimeout = TimeSpan.FromMinutes(20);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;

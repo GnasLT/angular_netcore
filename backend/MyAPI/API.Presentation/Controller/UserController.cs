@@ -18,15 +18,15 @@ namespace API.Presentation.Controller
     public class UserController : ControllerBase
     {
         private readonly IAuthenService _authenService;
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productservice;
 
         private readonly IOrderService _orderService;
 
-        public UserController(IAuthenService authenService, IProductRepository productRepository, IOrderService orderService)
+        public UserController(IAuthenService authenService, IProductService productservice, IOrderService orderService)
         {
 
             this._authenService = authenService;
-            this._productRepository = productRepository;
+            this._productservice = productservice;
             this._orderService = orderService;
         }
 
@@ -61,15 +61,28 @@ namespace API.Presentation.Controller
         [HttpGet("/getall")]
         public IActionResult GetAll()
         {
-            return Ok(new { Enumerable = _productRepository.GetAllProducts(), Message = "Get all products successfully" });
+            return Ok(new { Enumerable = _productservice.GetAllProducts(), Message = "Get all products successfully" });
+        }
+
+        [Authorize(Roles = "Seller")]
+        [HttpPatch("/update")]
+        public async Task<Result<ProductReponseDTO>> UpdateProduct([FromBody] ProductRequestDTO productRequest)
+        {
+            return await _productservice.UpdateProduct(productRequest);
+        }
+
+        [Authorize(Roles = "Seller")]
+        [HttpPatch("/delete/{id}")]
+        public Task DeleteProduct(int id)
+        {
+            return _productservice.DeleteProduct(id);
         }
 
         [Authorize(Roles = "Seller")]
         [HttpPost("/addproduct")]
         public async Task<Result<ProductReponseDTO>> AddProduct([FromBody] ProductRequestDTO productRequest)
         {
-            _productRepository.AddProduct(productRequest);
-            return null;
+            return await _productservice.AddProduct(productRequest); 
         }
 
         [Authorize(Roles = "Customer")]
@@ -84,4 +97,3 @@ namespace API.Presentation.Controller
 }
 
 
-// next step: adding DI for interfaces and implementations, then implement the methods in the service and repository layers.

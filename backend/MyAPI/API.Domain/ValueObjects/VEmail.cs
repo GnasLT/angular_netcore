@@ -4,7 +4,7 @@ namespace API.Domain.Entities
 {
     public class VEmail
     {
-        public string Value { get; }
+        public string Value { get; private set; }
 
         public VEmail(string value)
         {

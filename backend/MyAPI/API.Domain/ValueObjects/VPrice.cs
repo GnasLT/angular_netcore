@@ -6,10 +6,10 @@ namespace API.Domain.Entities
 {
     public class VPrice
     {
-        public decimal Value { get; }
-        public string Currency = "USD";
+        public decimal Value { get; private set; }
+        public string Currency { get; private set; }
 
-        public VPrice(decimal value, string currency)
+        public VPrice(decimal value, string currency = "VND")
         {
             if (value < 0)
             {

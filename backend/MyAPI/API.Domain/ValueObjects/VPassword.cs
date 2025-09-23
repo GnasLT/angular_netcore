@@ -4,7 +4,7 @@ namespace API.Domain.Entities
 {
     public class VPassword
     {
-        public string Value { get; }
+        public string Value { get; private set; }
 
         public VPassword(string value)
         {

@@ -7,7 +7,7 @@ namespace API.Application.DTO.Request
     {
         public DateTime OrderDate { get; set; }
 
-        public List<Products> Items { get; set; }
+        public List<ProductItems> Items { get; set; }
 
     }
 

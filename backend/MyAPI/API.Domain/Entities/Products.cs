@@ -24,6 +24,13 @@ namespace API.Domain.Entities
             Price = newPrice;
         }
 
+        public void UpdateProduct(string name, VPrice price, VStock stock)
+        {
+            Name = name ?? throw new InvalidOperationException("Name cannot be null");
+            Price = price ?? throw new InvalidOperationException("Price cannot be null");
+            Stock = stock ?? throw new InvalidOperationException("Stock cannot be null");
+        }
+
         public void IncreaseStock(int newStock)
         {
             if (newStock < 0)
@@ -39,7 +46,7 @@ namespace API.Domain.Entities
             {
                 throw new InvalidOperationException("Stock decrease must be a positive value.");
             }
-            if (Stock.Quanlity < newStock)
+            if (Stock.quantity < newStock)
             {
                 throw new InvalidOperationException("Insufficient stock to decrease.");
             }

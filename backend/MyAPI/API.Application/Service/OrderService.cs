@@ -32,7 +32,7 @@ namespace API.Application.Service
                 if (product != null)
                 {
                     product.DecreaseStock(item.Quantity);
-                    Console.WriteLine(product.Stock.Quanlity);
+                    Console.WriteLine(product.Stock.quantity);
                 }
                 else
                 {

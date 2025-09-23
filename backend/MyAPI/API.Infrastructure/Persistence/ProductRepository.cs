@@ -24,9 +24,10 @@ namespace API.Infrastructure.Persistence
             return products;
         }
 
-        public void AddProduct(string name, VPrice price, VStock stock)
+        public void AddProduct(int id, string name, VPrice price, VStock stock)
         {
-            throw new NotImplementedException();
+            var newProduct = new Products(id, name, price, stock);
+            products.Add(newProduct);
         }
 
         public void DecreaseStock(int id, int newStock)
@@ -34,9 +35,11 @@ namespace API.Infrastructure.Persistence
             throw new NotImplementedException();
         }
 
-        public void DeleteProduct(string name)
+        public void DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var product = GetProductByID(id);
+            products.Remove(product);
+           
         }
 
         public Products GetProductByName(string name)
@@ -68,8 +71,9 @@ namespace API.Infrastructure.Persistence
 
         public void UpdateProduct(Products product)
         {
-            throw new NotImplementedException();
+            product.UpdateProduct(product.Name, product.Price, product.Stock);
         }
+
     }
 
 }

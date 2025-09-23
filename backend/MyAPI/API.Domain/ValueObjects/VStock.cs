@@ -4,7 +4,7 @@ namespace API.Domain.Entities
 {
     public class VStock
     {
-        public int Quanlity { get; private set; }
+        public int quantity { get; private set; }
 
         public VStock(int value)
         {
@@ -12,7 +12,7 @@ namespace API.Domain.Entities
             {
                 throw new ArgumentException("Stock cannot be negative", nameof(value));
             }
-            Quanlity = value;
+            quantity = value;
         }
         
         public void Decrease(int amount)
@@ -21,11 +21,11 @@ namespace API.Domain.Entities
             // {
             //     throw new ArgumentException("Decrease amount cannot be negative", nameof(amount));
             // }
-            // if (amount > Quanlity)
+            // if (amount > quantity)
             // {
             //     throw new InvalidOperationException("Insufficient stock to decrease");
             // }
-            Quanlity -= amount;
+            quantity -= amount;
         }
 
         public void Increase(int amount)
@@ -34,22 +34,22 @@ namespace API.Domain.Entities
             {
                 throw new ArgumentException("Increase amount cannot be negative", nameof(amount));
             }
-            Quanlity += amount;
+            quantity += amount;
         }
 
 
-        public override string ToString() => Quanlity.ToString();
+        public override string ToString() => quantity.ToString();
 
         public override bool Equals(object obj)
         {
             if (obj is VStock other)
             {
-                return Quanlity == other.Quanlity;
+                return quantity == other.quantity;
             }
             return false;
         }
 
-        public override int GetHashCode() => Quanlity.GetHashCode();
+        public override int GetHashCode() => quantity.GetHashCode();
 
 
     }
