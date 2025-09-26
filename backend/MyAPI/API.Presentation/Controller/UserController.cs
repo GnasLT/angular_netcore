@@ -18,16 +18,11 @@ namespace API.Presentation.Controller
     public class UserController : ControllerBase
     {
         private readonly IAuthenService _authenService;
-        private readonly IProductService _productservice;
 
-        private readonly IOrderService _orderService;
-
-        public UserController(IAuthenService authenService, IProductService productservice, IOrderService orderService)
+        public UserController(IAuthenService authenService)
         {
 
             this._authenService = authenService;
-            this._productservice = productservice;
-            this._orderService = orderService;
         }
 
         [HttpPost("/login")]
@@ -57,41 +52,14 @@ namespace API.Presentation.Controller
             return Result<UserResponseDTO>.SuccessResult(result.Data, result.Message);
         }
 
-        [Authorize(Roles = "Seller")]
-        [HttpGet("/getall")]
-        public IActionResult GetAll()
-        {
-            return Ok(new { Enumerable = _productservice.GetAllProducts(), Message = "Get all products successfully" });
-        }
+        // [HttpPost("/register")]
+        // public async Task<Result<UserResponseDTO>> Register([FromBody] UserRequestDTO userRequest)
+        // {
+        //     return await _authenService.Register(userRequest);
+        // }
 
-        [Authorize(Roles = "Seller")]
-        [HttpPatch("/update")]
-        public async Task<Result<ProductReponseDTO>> UpdateProduct([FromBody] ProductRequestDTO productRequest)
-        {
-            return await _productservice.UpdateProduct(productRequest);
-        }
 
-        [Authorize(Roles = "Seller")]
-        [HttpPatch("/delete/{id}")]
-        public Task DeleteProduct(int id)
-        {
-            return _productservice.DeleteProduct(id);
-        }
-
-        [Authorize(Roles = "Seller")]
-        [HttpPost("/addproduct")]
-        public async Task<Result<ProductReponseDTO>> AddProduct([FromBody] ProductRequestDTO productRequest)
-        {
-            return await _productservice.AddProduct(productRequest); 
-        }
-
-        [Authorize(Roles = "Customer")]
-        [HttpPost("/buying")]
-        public async Task<Result<OrderResponseDTO>> Buying([FromBody] OrderRequestDTO orders)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return await _orderService.CreateOrder(orders, userId);
-        }
+        
 
     }
 }

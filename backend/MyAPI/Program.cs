@@ -22,7 +22,7 @@ builder.Services.AddAuthentication("MyCookieAuth").AddCookie(
     });
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("cookieAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("MyCookieAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "MyCookieAuth",
         Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
@@ -57,6 +57,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "MyCookieAuth"; 
